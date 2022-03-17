@@ -18,9 +18,9 @@ INSERT INTO categoria_entrada (existencia,nome, fornecedor_id) VALUES ('80', 'Pa
 INSERT INTO categoria_entrada (existencia,nome, fornecedor_id) VALUES ('27', 'Cartridge', '1');
 INSERT INTO categoria_entrada (existencia,nome, fornecedor_id) VALUES ('26', 'Sprays', '3');
 
-INSERT INTO orcamento (descricao,valor,departamento_id,funcionario_id) VALUES ('Orcamento 1 Semestre', '150000', '1', '1');
-INSERT INTO orcamento (descricao,valor,departamento_id,funcionario_id) VALUES ('Orcamento 2 Semestre', '200000', '1', '1');
-INSERT INTO orcamento (descricao,valor,departamento_id,funcionario_id) VALUES ('Orcamento anual 2022', '135000', '2', '2');
+INSERT INTO orcamento (descricao,valor,funcionario_id) VALUES ('Orcamento 1 Semestre', '150000', '1');
+INSERT INTO orcamento (descricao,valor,funcionario_id) VALUES ('Orcamento 2 Semestre', '200000', '1');
+INSERT INTO orcamento (descricao,valor,funcionario_id) VALUES ('Orcamento anual 2022', '135000', '2');
 
 INSERT INTO registo(data, numero_documento, funcionario_id, serie_documento_id) VALUES ('2022-01-12', 1, 1,1);
 

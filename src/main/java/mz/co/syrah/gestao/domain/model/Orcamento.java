@@ -22,7 +22,7 @@ public class Orcamento {
 	private long id;
 	
 	private String descricao;
-	private String valor;
+	private Double valor;
 	
 
 	@ManyToOne
