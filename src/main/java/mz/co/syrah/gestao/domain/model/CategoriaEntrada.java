@@ -2,7 +2,6 @@ package mz.co.syrah.gestao.domain.model;
 
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -37,8 +36,10 @@ public class CategoriaEntrada {
 	
 	
 	@OneToMany(mappedBy = "id.categoriaEntrada")
+	@JsonIgnore
 	private Set<ArtigosRegisto> artigos= new HashSet<>();
 	
+	@JsonIgnore
 	public List<Registo> getResgistos(){
 		List<Registo> lista= new ArrayList<>();
 		for (ArtigosRegisto x: artigos) {

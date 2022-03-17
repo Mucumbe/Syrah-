@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 import mz.co.syrah.gestao.domain.model.Orcamento;
 
 @Repository
-public interface OrcamenroRepository extends JpaRepository<Orcamento,Long> {
+public interface OrcamentoRepository extends JpaRepository<Orcamento,Long> {
 
 }

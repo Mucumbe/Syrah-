@@ -52,7 +52,7 @@ public class FornecedorController {
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
 	public ResponseEntity<Fornecedor> guardar(@RequestBody Fornecedor fornecedor) {
-
+		fornecedor=repository.save(fornecedor);
 		return ResponseEntity.status(HttpStatus.CREATED).body(fornecedor);
 	}
 	

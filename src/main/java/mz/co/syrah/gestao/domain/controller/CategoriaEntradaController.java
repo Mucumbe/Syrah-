@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -28,6 +29,7 @@ public class CategoriaEntradaController {
 	@Autowired
 	private CategoriaEntradaRepository repository;
 
+	@Autowired
 	private CategoriaEntradaService service;
 
 	@GetMapping
@@ -83,8 +85,13 @@ public class CategoriaEntradaController {
 
 		Optional<CategoriaEntrada> entrada = repository.findById(id);
 		if (entrada.isPresent()) {
-			repository.deleteById(id);
-			return ResponseEntity.noContent().build();
+			try {
+				repository.deleteById(id);
+				return ResponseEntity.noContent().build();
+			} catch (DataIntegrityViolationException e) {
+				return ResponseEntity.status(HttpStatus.CONFLICT).build();
+			}
+			
 		}
 
 		return ResponseEntity.notFound().build();

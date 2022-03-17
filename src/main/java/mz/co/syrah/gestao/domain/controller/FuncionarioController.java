@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import mz.co.syrah.gestao.domain.exception.EntidadeEmUsoException;
 import mz.co.syrah.gestao.domain.exception.EntidadeNaoEncontradaExcepion;
 import mz.co.syrah.gestao.domain.model.Funcionario;
 import mz.co.syrah.gestao.domain.repository.FuncionarioRepository;
@@ -50,7 +51,7 @@ public class FuncionarioController {
 
 	@PostMapping
 	public ResponseEntity<?> guardar(@RequestBody Funcionario funcionario) {
-
+System.err.println(funcionario);
 		try {
 			funcionario = service.guardar(funcionario);
 			return ResponseEntity.status(HttpStatus.CREATED).body(funcionario);
@@ -79,14 +80,14 @@ public class FuncionarioController {
 	}
 	
 	@DeleteMapping("/{id}")
-	public ResponseEntity<Funcionario> apagar(@PathVariable Long id){
-		
-		Optional<Funcionario> funcionario =repository.findById(id);
-		if (funcionario.isPresent()) {
-			repository.deleteById(id);
+	public ResponseEntity<?> apagar(@PathVariable Long id){
+		try {
+			service.apagar(id);
 			return ResponseEntity.noContent().build();
+		} catch (EntidadeEmUsoException e) {
+			return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
+		}catch (EntidadeNaoEncontradaExcepion e) {
+			return ResponseEntity.notFound().build();
 		}
-		
-		return ResponseEntity.notFound().build();
 	}
 }

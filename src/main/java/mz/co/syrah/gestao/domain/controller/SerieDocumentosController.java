@@ -52,7 +52,7 @@ public class SerieDocumentosController {
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
 	public ResponseEntity<SerieDocumento> guardar(@RequestBody SerieDocumento serieDocumento) {
-
+		serieDocumento=repository.save(serieDocumento);
 		return ResponseEntity.status(HttpStatus.CREATED).body(serieDocumento);
 	}
 	

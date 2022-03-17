@@ -26,8 +26,5 @@ public class Orcamento {
 	
 
 	@ManyToOne
-	private Departamento departamento;
-
-	@ManyToOne
 	private Funcionario funcionario;
 }

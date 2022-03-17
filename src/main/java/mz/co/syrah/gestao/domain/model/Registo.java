@@ -35,6 +35,7 @@ public class Registo {
 	@ManyToOne
 	private SerieDocumento serieDocumento;
 	
+	@JsonIgnore
 	@OneToMany(mappedBy = "id.registo")
 	private Set<ArtigosRegisto> artigos= new HashSet<>();
 }
