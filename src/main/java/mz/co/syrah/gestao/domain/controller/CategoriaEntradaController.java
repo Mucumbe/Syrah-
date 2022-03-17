@@ -1,8 +1,13 @@
 package mz.co.syrah.gestao.domain.controller;
 
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.poi.util.IOUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -21,6 +26,7 @@ import mz.co.syrah.gestao.domain.exception.EntidadeNaoEncontradaExcepion;
 import mz.co.syrah.gestao.domain.model.CategoriaEntrada;
 import mz.co.syrah.gestao.domain.repository.CategoriaEntradaRepository;
 import mz.co.syrah.gestao.domain.service.CategoriaEntradaService;
+import mz.co.syrah.gestao.domain.service.export.CategoriaEntradaExportService;
 
 @RestController
 @RequestMapping("/categoriasentradas")
@@ -31,6 +37,9 @@ public class CategoriaEntradaController {
 
 	@Autowired
 	private CategoriaEntradaService service;
+	
+	@Autowired
+	private CategoriaEntradaExportService categoriaEntradaExportService;
 
 	@GetMapping
 	public List<CategoriaEntrada> listar() {
@@ -96,5 +105,19 @@ public class CategoriaEntradaController {
 
 		return ResponseEntity.notFound().build();
 	}
+	
+	@GetMapping("/export")
+    public void exportToExcel(HttpServletResponse response) throws IOException {
+       
+		
+		List<CategoriaEntrada> categoriaEntradas = repository.findAll();
+        ByteArrayInputStream byteArrayInputStream = categoriaEntradaExportService.export(categoriaEntradas);
+        response.setContentType("application/octet-stream");
+        response.setHeader("Content-Disposition", "attachment; filename=inventario.xlsx");
+        IOUtils.copy(byteArrayInputStream, response.getOutputStream());
+		
+		
+	  
+    }  
 
 }

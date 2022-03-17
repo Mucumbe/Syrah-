@@ -1,8 +1,13 @@
                                                                                                                                                                                        package mz.co.syrah.gestao.domain.controller;
 
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.poi.util.IOUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,8 +23,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import mz.co.syrah.gestao.domain.exception.EntidadeEmUsoException;
 import mz.co.syrah.gestao.domain.exception.EntidadeNaoEncontradaExcepion;
+import mz.co.syrah.gestao.domain.model.CategoriaEntrada;
 import mz.co.syrah.gestao.domain.model.Departamento;
 import mz.co.syrah.gestao.domain.repository.DepartamentoRepository;
+import mz.co.syrah.gestao.domain.repository.export.DepartamentoExport;
 import mz.co.syrah.gestao.domain.service.DepartamentoService;
 
 @RestController
@@ -32,6 +39,9 @@ public class DepartamentoController {
 	@Autowired
 	private DepartamentoService service;
 
+	@Autowired
+	private DepartamentoExport departamentoExport;
+	
 	@GetMapping
 	public List<Departamento> listar() {
 		return repository.findAll();
@@ -78,4 +88,18 @@ public class DepartamentoController {
 		}
 
 	}
+	
+	@GetMapping("/export")
+    public void exportToExcel(HttpServletResponse response) throws IOException {
+       
+		
+		List<Departamento> departamentos = repository.findAll();
+        ByteArrayInputStream byteArrayInputStream = departamentoExport.export(departamentos);
+        response.setContentType("application/octet-stream");
+        response.setHeader("Content-Disposition", "attachment; filename=saldo.xlsx");
+        IOUtils.copy(byteArrayInputStream, response.getOutputStream());
+		
+		
+	  
+    }  
 }
